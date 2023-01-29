@@ -8,7 +8,7 @@ const Navbar = () => {
     <>
       {user?.uid ? (
         <li>
-          <Link to="/">Bills</Link>
+          <Link to="/billing-list">Bills</Link>
         </li>
       ) : (
         ""
@@ -66,7 +66,10 @@ const Navbar = () => {
             <Link to="/login" className="btn btn-primary mr-2">
               Login
             </Link>
-            <Link to="/signup" className="btn btn-outline btn-primary ml-2">
+            <Link
+              to="/registration"
+              className="btn btn-outline btn-primary ml-2"
+            >
               Register
             </Link>
           </>

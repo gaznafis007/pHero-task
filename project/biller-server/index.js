@@ -38,6 +38,26 @@ async function run() {
   try {
     const billsCollection = client.db("billers").collection("bills");
 
+    app.get("/billings", verifyToken, async (req, res) => {
+      const decode = req.decode;
+      let query = {};
+      //   if (decode.email !== req.query.email) {
+      //     return res.status(403).send({ message: "forbidden access" });
+      //   }
+      if (req.query.email) {
+        query = { email: req.query.email };
+      }
+      const currentPage = parseInt(req.query.currentPage);
+      const size = 10;
+      const cursor = billsCollection.find(query);
+      const result = await cursor
+        .skip(currentPage * size)
+        .limit(size)
+        .toArray();
+      const count = await billsCollection.estimatedDocumentCount();
+      res.send({ count, result });
+    });
+
     app.post("/jwt", (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN, {

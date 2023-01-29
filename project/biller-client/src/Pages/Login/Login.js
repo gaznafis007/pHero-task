@@ -62,7 +62,7 @@ const Login = () => {
           />
           <label className="label-text-alt">
             New to Biller?{" "}
-            <Link to="/signup" className=" link link-hover">
+            <Link to="/registration" className=" link link-hover">
               Register
             </Link>
           </label>

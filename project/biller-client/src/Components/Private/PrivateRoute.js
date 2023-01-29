@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
   if (loading) {
     return (
       <>
-        <div className="w-96 p-16 border-8 border-indigo-700 border-dotted animate-spin mx-auto"></div>
+        <div className="w-16 h-16 p-16 border-8 border-indigo-700 border-dotted rounded-full animate-spin mx-auto"></div>
       </>
     );
   }
