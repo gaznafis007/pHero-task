@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const signup = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
@@ -24,10 +25,12 @@ const AuthProvider = ({ children }) => {
   };
 
   const login = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const logout = () => {
+    localStorage.removeItem("distributionToken");
     return signOut(auth);
   };
 

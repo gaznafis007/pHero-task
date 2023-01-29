@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../api/AuthProvider";
 
 const Navbar = () => {
-  const { user, signup } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const liItems = (
     <>
       {user?.uid ? (
@@ -44,7 +44,7 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost normal-case text-xl">
-          Biller
+          Distribution-Hack
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -52,7 +52,15 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user?.uid ? (
-          <button>Logout</button>
+          <>
+            <span className="mr-3">{user?.displayName}</span>
+            <button
+              onClick={() => logout()}
+              className="btn btn-error text-white"
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <>
             <Link to="/login" className="btn btn-primary mr-2">
