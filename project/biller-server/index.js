@@ -41,9 +41,9 @@ async function run() {
     app.get("/billings", verifyToken, async (req, res) => {
       const decode = req.decode;
       let query = {};
-      //   if (decode.email !== req.query.email) {
-      //     return res.status(403).send({ message: "forbidden access" });
-      //   }
+      if (decode.email !== req.query.email) {
+        return res.status(403).send({ message: "forbidden access" });
+      }
       if (req.query.email) {
         query = { userEmail: req.query.email };
       }
@@ -60,6 +60,26 @@ async function run() {
     app.post("/billings", async (req, res) => {
       const bill = req.body;
       const result = await billsCollection.insertOne(bill);
+      res.send(result);
+    });
+    app.patch("/billings/:id", async (req, res) => {
+      const id = req.params.id;
+      const updated = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          email: updated.email,
+          name: updated.name,
+          phone: updated.phone,
+          amount: updated.amount,
+        },
+      };
+      const result = await billsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
       res.send(result);
     });
     app.delete("/billings/:_id", async (req, res) => {

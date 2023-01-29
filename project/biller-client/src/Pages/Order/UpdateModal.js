@@ -1,70 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../api/AuthProvider";
 
-const Modal = ({ modalFor, modalMethod, singleBill }) => {
-  const navigate = useNavigate();
-  const { setLoading, user } = useContext(AuthContext);
+const UpdateModal = ({ handleUpdate }) => {
   const { register, handleSubmit } = useForm();
-  const handleAction = (data) => {
-    setLoading(true);
-    const userEmail = user?.email;
-    const name = data.name;
-    const email = data.email;
-    const phone = data.phone;
-    const amount = data.amount;
-    const bill = {
-      userEmail,
-      name,
-      email,
-      phone,
-      amount,
-    };
-    if (modalMethod === "PATCH") {
-      return fetch(`http://localhost:5000/billings/${singleBill._id}`, {
-        method: `${modalMethod}`,
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(bill),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setLoading(false);
-        });
-    }
-    fetch("http://localhost:5000/billings", {
-      method: `${modalMethod}`,
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(bill),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.acknowledged) {
-          setLoading(false);
-          navigate("/billing-list");
-        }
-      });
-  };
-  //   console.log(modalFor);
   return (
     <>
-      <input type="checkbox" id={modalFor} className="modal-toggle" />
+      <input type="checkbox" id={"update-modal"} className="modal-toggle" />
       <div className="modal p-6">
         <div className="modal-box relative">
           <label
-            htmlFor={modalFor}
+            htmlFor={"update-modal"}
             className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
-          <h3 className="text-3xl text-center font-bold my-3">{modalFor}</h3>
-          <form className="p-2" onSubmit={handleSubmit(handleAction)}>
+          <h3 className="text-3xl text-center font-bold my-3">Update Modal</h3>
+          <form className="p-2" onSubmit={handleSubmit(handleUpdate)}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Full Name</span>
@@ -107,7 +58,7 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
               </label>
             </div>
             <button className="btn btn-block mt-2 btn-outline btn-success">
-              {modalFor}
+              {"update-modal"}
             </button>
           </form>
         </div>
@@ -116,4 +67,4 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
   );
 };
 
-export default Modal;
+export default UpdateModal;

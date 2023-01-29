@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../api/AuthProvider";
 import Modal from "../../Components/Modal/Modal";
 import BillingTable from "./BillingTable";
 
 const Order = () => {
+  const navigate = useNavigate();
   const { user, setLoading } = useContext(AuthContext);
   const [billings, setBillings] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -12,39 +14,42 @@ const Order = () => {
   const pages = [...Array(pageCount).keys()];
   //   console.log(pages);
   const [modalFor, setModalFor] = useState("");
+  const [singleBill, setSingleBill] = useState({});
   const [modalMethod, setModalMethod] = useState("");
   const handleCurrentPage = (page) => {
     setCurrentPage(page);
   };
-  const handleAdd = (data) => {
-    setLoading(true);
-    const userEmail = user?.email;
-    const name = data.name;
-    const email = data.email;
-    const phone = data.phone;
-    const amount = data.amount;
-    const bill = {
-      userEmail,
-      name,
-      email,
-      phone,
-      amount,
-    };
-    fetch("http://localhost:5000/billings", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(bill),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.acknowledged) {
-          setLoading(false);
-        }
-      });
-  };
+  //   const handleAdd = (data) => {
+  //     setLoading(true);
+  //     const userEmail = user?.email;
+  //     const name = data.name;
+  //     const email = data.email;
+  //     const phone = data.phone;
+  //     const amount = data.amount;
+  //     const bill = {
+  //       userEmail,
+  //       name,
+  //       email,
+  //       phone,
+  //       amount,
+  //     };
+  //     fetch("http://localhost:5000/billings", {
+  //       method: "POST",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //       body: JSON.stringify(bill),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         if (data.acknowledged) {
+  //           setLoading(false);
+  //           navigate("/billing-list");
+  //         }
+  //       });
+  //   };
+
   const handleDelete = (item) => {
     setLoading(true);
     fetch(`http://localhost:5000/billings/${item._id}`, {
@@ -76,11 +81,13 @@ const Order = () => {
         // console.log(data);
         setCount(data.count);
         setBillings(data.result);
+        setLoading(false);
       });
   }, [currentPage, billings]);
-  const handleModal = (modalName, modalMethod) => {
+  const handleModal = (modalName, modalMethod, bill) => {
     setModalFor(modalName);
     setModalMethod(modalMethod);
+    setSingleBill(bill);
   };
   return (
     <section>
@@ -110,6 +117,8 @@ const Order = () => {
         <BillingTable
           billings={billings}
           handleDelete={handleDelete}
+          modalFor={modalFor}
+          handleModal={handleModal}
         ></BillingTable>
       </div>
 
@@ -135,7 +144,11 @@ const Order = () => {
         ))} */}
         </div>
       </div>
-      <Modal modalFor={modalFor} handleAdd={handleAdd}></Modal>
+      <Modal
+        modalFor={modalFor}
+        modalMethod={modalMethod}
+        singleBill={singleBill}
+      ></Modal>
     </section>
   );
 };

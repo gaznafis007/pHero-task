@@ -1,6 +1,6 @@
 import React from "react";
 
-const BillingTable = ({ billings, handleDelete }) => {
+const BillingTable = ({ billings, handleDelete, modalFor, handleModal }) => {
   return (
     <div className="overflow-x-auto mx-8">
       <table className="table table-compact w-full">
@@ -23,7 +23,14 @@ const BillingTable = ({ billings, handleDelete }) => {
               <td>{billing.phone}</td>
               <td>{billing.amount}</td>
               <td>
-                <label className="link">Edit</label> or{" "}
+                <label
+                  htmlFor={modalFor}
+                  onClick={() => handleModal("Update Bill", "PATCH", billing)}
+                  className="link"
+                >
+                  Edit
+                </label>{" "}
+                or{" "}
                 <span onClick={() => handleDelete(billing)} className="link">
                   Delete
                 </span>
