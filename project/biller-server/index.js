@@ -38,7 +38,7 @@ async function run() {
   try {
     const billsCollection = client.db("billers").collection("bills");
 
-    app.get("/billings", verifyToken, async (req, res) => {
+    app.get("/billing-list", verifyToken, async (req, res) => {
       const decode = req.decode;
       let query = {};
       if (decode.email !== req.query.email) {
@@ -57,12 +57,12 @@ async function run() {
       const count = await billsCollection.estimatedDocumentCount();
       res.send({ count, result });
     });
-    app.post("/billings", async (req, res) => {
+    app.post("/add-billing", async (req, res) => {
       const bill = req.body;
       const result = await billsCollection.insertOne(bill);
       res.send(result);
     });
-    app.patch("/billings/:id", async (req, res) => {
+    app.patch("/update-billing/:id", async (req, res) => {
       const id = req.params.id;
       const updated = req.body;
       const filter = { _id: ObjectId(id) };
@@ -82,7 +82,7 @@ async function run() {
       );
       res.send(result);
     });
-    app.delete("/billings/:_id", async (req, res) => {
+    app.delete("/delete-billing/:_id", async (req, res) => {
       const id = req.params._id;
       console.log(id);
       const query = { _id: ObjectId(id) };

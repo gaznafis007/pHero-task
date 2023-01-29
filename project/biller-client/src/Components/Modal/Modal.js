@@ -22,7 +22,7 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
       amount,
     };
     if (modalMethod === "PATCH") {
-      return fetch(`http://localhost:5000/billings/${singleBill._id}`, {
+      return fetch(`http://localhost:5000/update-billing/${singleBill._id}`, {
         method: `${modalMethod}`,
         headers: {
           "content-type": "application/json",
@@ -35,7 +35,7 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
           setLoading(false);
         });
     }
-    fetch("http://localhost:5000/billings", {
+    fetch("http://localhost:5000/add-billing", {
       method: `${modalMethod}`,
       headers: {
         "content-type": "application/json",

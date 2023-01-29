@@ -52,7 +52,7 @@ const Order = () => {
 
   const handleDelete = (item) => {
     setLoading(true);
-    fetch(`http://localhost:5000/billings/${item._id}`, {
+    fetch(`http://localhost:5000/delete-billing/${item._id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -69,7 +69,7 @@ const Order = () => {
   };
   useEffect(() => {
     fetch(
-      `http://localhost:5000/billings?currentPage=${currentPage}&email=${user?.email}`,
+      `http://localhost:5000/billing-list?currentPage=${currentPage}&email=${user?.email}`,
       {
         headers: {
           authorization: `bearer ${localStorage.getItem("distributionToken")}`,
