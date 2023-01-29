@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../api/AuthProvider";
 
@@ -32,9 +33,11 @@ const Login = () => {
             console.log(data);
             localStorage.setItem("distributionToken", data.token);
             navigate(from, { replace: true });
+            toast.success("Login successful");
           })
           .catch((error) => {
             console.log(error.message);
+            toast.error(error.message);
           });
       })
       .catch((err) => {

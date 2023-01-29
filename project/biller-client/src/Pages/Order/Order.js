@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../api/AuthProvider";
 import Modal from "../../Components/Modal/Modal";
@@ -64,7 +65,11 @@ const Order = () => {
           );
           setBillings(newBills);
           setLoading(false);
+          toast.success("Deleted successfully");
         }
+      })
+      .catch((error) => {
+        toast.error(error.message);
       });
   };
   useEffect(() => {

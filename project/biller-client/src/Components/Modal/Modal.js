@@ -1,12 +1,17 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../api/AuthProvider";
 
 const Modal = ({ modalFor, modalMethod, singleBill }) => {
   const navigate = useNavigate();
   const { setLoading, user } = useContext(AuthContext);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const handleAction = (data) => {
     setLoading(true);
     const userEmail = user?.email;
@@ -33,6 +38,10 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
         .then((data) => {
           console.log(data);
           setLoading(false);
+          toast.success(`${singleBill._id} id updated`);
+        })
+        .catch((error) => {
+          toast.error(error.message);
         });
     }
     fetch("http://localhost:5000/add-billing", {
@@ -48,7 +57,11 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
         if (data.acknowledged) {
           setLoading(false);
           navigate("/billing-list");
+          toast.success(`Id Generated`);
         }
+      })
+      .catch((error) => {
+        toast.error(error.message);
       });
   };
   //   console.log(modalFor);
@@ -90,10 +103,22 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
               <label className="label">
                 <span className="label-text">Phone</span>
                 <input
-                  {...register("phone")}
+                  {...register("phone", {
+                    required: "Phone is required",
+                    minLength: {
+                      value: 10,
+                      message: "Phone number must contain 11 digit",
+                    },
+                  })}
                   type="text"
                   className="input input-bordered"
                 />
+                {errors?.phone && (
+                  <>
+                    <br />
+                    <p className="text-error">{errors?.password?.message}</p>
+                  </>
+                )}
               </label>
             </div>
             <div className="form-control">
