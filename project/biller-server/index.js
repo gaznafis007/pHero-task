@@ -47,6 +47,16 @@ async function run() {
       if (req.query.email) {
         query = { userEmail: req.query.email };
       }
+      //   if (req.query.name) {
+      //     query = {
+      //       $or: [
+      //         {
+      //           userEmail: req.query.email,
+      //           name: req.query.name,
+      //         },
+      //       ],
+      //     };
+      //   }
       const currentPage = parseInt(req.query.currentPage);
       const size = 10;
       const cursor = billsCollection.find(query);
@@ -54,6 +64,7 @@ async function run() {
         .skip(currentPage * size)
         .limit(size)
         .toArray();
+      console.log(result.length, currentPage, req.query.email);
       const count = await billsCollection.estimatedDocumentCount();
       res.send({ count, result });
     });

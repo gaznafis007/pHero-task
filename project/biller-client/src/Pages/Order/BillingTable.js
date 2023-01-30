@@ -3,7 +3,7 @@ import React from "react";
 const BillingTable = ({ billings, handleDelete, modalFor, handleModal }) => {
   return (
     <div className="overflow-x-auto mx-8">
-      <table className="table table-compact w-full">
+      <table className="table table-normal w-full">
         <thead>
           <tr>
             <th>Billing ID</th>

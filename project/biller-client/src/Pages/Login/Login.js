@@ -74,6 +74,12 @@ const Login = () => {
           Sign up
         </button>
       </form>
+
+      <div>
+        <h2 className="text-2x text-center">Test email and password</h2>
+        <p className="text-center">email: test@gmail.com</p>
+        <p className="text-center">password: 123456</p>
+      </div>
     </div>
   );
 };

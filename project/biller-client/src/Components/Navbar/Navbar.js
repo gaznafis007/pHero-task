@@ -6,7 +6,7 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const liItems = (
     <>
-      {user?.uid ? (
+      {user?.email ? (
         <li>
           <Link to="/billing-list">Bills</Link>
         </li>
@@ -44,14 +44,14 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost normal-case text-xl">
-          Distribution-Hack
+          Power-Hack
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{liItems}</ul>
       </div>
       <div className="navbar-end">
-        {user?.uid ? (
+        {user?.email ? (
           <>
             <span className="mr-3">{user?.displayName}</span>
             <button
