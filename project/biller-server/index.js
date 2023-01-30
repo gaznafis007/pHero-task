@@ -60,12 +60,14 @@ async function run() {
       const currentPage = parseInt(req.query.currentPage);
       const size = 10;
       const cursor = billsCollection.find(query);
+      //   const resultArray = await billsCollection.find(query).toArray();
       const result = await cursor
         .skip(currentPage * size)
         .limit(size)
         .toArray();
-      console.log(result.length, currentPage, req.query.email);
+      console.log(currentPage, req.query.email);
       const count = await billsCollection.estimatedDocumentCount();
+      //   const resultCount = cursor.length;
       res.send({ count, result });
     });
     app.post("/add-billing", async (req, res) => {
