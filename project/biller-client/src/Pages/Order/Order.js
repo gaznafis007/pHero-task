@@ -36,7 +36,7 @@ const Order = () => {
   //       phone,
   //       amount,
   //     };
-  //     fetch("http://localhost:5000/billings", {
+  //     fetch("https://biller-server.vercel.app/billings", {
   //       method: "POST",
   //       headers: {
   //         "content-type": "application/json",
@@ -56,7 +56,7 @@ const Order = () => {
   //   const handleSearch = (data) => {
   //     const searchValue = data.search;
   //     fetch(
-  //       `http://localhost:5000/billing-list?currentPage=${currentPage}&email=${user?.email}&name=${searchValue}`,
+  //       `https://biller-server.vercel.app/billing-list?currentPage=${currentPage}&email=${user?.email}&name=${searchValue}`,
   //       {
   //         headers: {
   //           authorization: `Bearer ${localStorage.getItem("distributionToken")}`,
@@ -71,7 +71,7 @@ const Order = () => {
   //   };
   const handleDelete = (item) => {
     setLoading(true);
-    fetch(`http://localhost:5000/delete-billing/${item._id}`, {
+    fetch(`https://biller-server.vercel.app/delete-billing/${item._id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -92,7 +92,7 @@ const Order = () => {
   };
   useEffect(() => {
     fetch(
-      `http://localhost:5000/billing-list?currentPage=${currentPage}&email=${user?.email}`,
+      `https://biller-server.vercel.app/billing-list?currentPage=${currentPage}&email=${user?.email}`,
       {
         headers: {
           authorization: `bearer ${localStorage.getItem("distributionToken")}`,

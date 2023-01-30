@@ -27,13 +27,16 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
       amount,
     };
     if (modalMethod === "PATCH") {
-      return fetch(`http://localhost:5000/update-billing/${singleBill._id}`, {
-        method: `${modalMethod}`,
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(bill),
-      })
+      return fetch(
+        `https://biller-server.vercel.app/update-billing/${singleBill._id}`,
+        {
+          method: `${modalMethod}`,
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(bill),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -44,7 +47,7 @@ const Modal = ({ modalFor, modalMethod, singleBill }) => {
           toast.error(error.message);
         });
     }
-    fetch("http://localhost:5000/add-billing", {
+    fetch("https://biller-server.vercel.app/add-billing", {
       method: `${modalMethod}`,
       headers: {
         "content-type": "application/json",
